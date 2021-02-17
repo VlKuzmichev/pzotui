@@ -37,6 +37,6 @@
 </template>
 
 <style lang="css">
-/*@import '../assets/index.css';*/
+@import '../assets/index.css';
 
 </style>

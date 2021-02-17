@@ -25,6 +25,5 @@ export default {
 
 <style lang="css">
 @import '~materialize-css/dist/css/materialize.min.css';
-@import 'assets/main.css';
 @import '~material-icons/iconfont/material-icons.css';
 </style>
