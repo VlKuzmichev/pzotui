@@ -1,20 +1,25 @@
 <template>
   <nav class="white">
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo left">
-        <img alt="" height="64" src="@/assets/logo.png"/>
-      </a>
+      <router-link tag="a" active-class="active"
+                   to="/myTests" exact>
+        <a class="brand-logo left">
+          <img alt=""  src="@/assets/logo.png"/>
+        </a>
+      </router-link>
       <ul id="nav-mobile" class="right">
-        <li>
+        <router-link tag="li" active-class="active"
+                     to="/profile" exact>
           <a href="#">
             <i class="material-icons black-text">account_box</i>
           </a>
-        </li>
-        <li>
+        </router-link>
+        <router-link tag="li" active-class="active"
+                     to="/login" exact>
           <a href="#">
             <i class="material-icons black-text">exit_to_app</i>
           </a>
-        </li>
+        </router-link>
       </ul>
     </div>
   </nav>
