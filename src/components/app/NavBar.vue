@@ -14,13 +14,22 @@
             <i class="material-icons black-text">account_box</i>
           </a>
         </router-link>
-        <router-link tag="li" active-class="active"
-                     to="/login" exact>
-          <a href="#">
+        <li>
+          <a href="#" @click.prevent="logout">
             <i class="material-icons black-text">exit_to_app</i>
           </a>
-        </router-link>
+        </li>
       </ul>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$router.push('/login?message=logout');
+    }
+  }
+}
+</script>
