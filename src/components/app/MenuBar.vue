@@ -1,28 +1,32 @@
 <template>
   <nav class="blue-grey">
-    <div class="nav-wrapper">
+    <div class="navbar-left nav-wrapper">
       <ul class="left">
-        <router-link tag="li" active-class="active"
-                     to="/myTests" exact>
-          <a href="#" class="waves-effect waves-light pointer">Мои тесты</a>
+        <router-link
+            v-for="link in links" :key="link.url"
+            tag="li" active-class="active"
+            :to="link.url" exact>
+          <a href="#" class="waves-effect waves-light pointer">{{link.title}}</a>
         </router-link>
-        <router-link tag="li" active-class="active"
-                     to="/tests" exact>
-          <a href="#" class="waves-effect waves-light pointer">Настройка тестов</a>
-        </router-link>
-        <router-link tag="li" active-class="active"
-                     to="/groupsStudents" exact>
-          <a href="#" class="waves-effect waves-light pointer">Группы студентов</a>
-        </router-link>
-        <router-link tag="li" active-class="active"
-                     to="/users" exact>
-          <a href="#" class="waves-effect waves-light pointer">Пользователи</a>
-        </router-link>
-        <router-link tag="li" active-class="active"
-                     to="/groupUsers" exact>
-          <a href="#" class="waves-effect waves-light pointer">Группы пользователей</a>
-        </router-link>
+        <!--        <router-link tag="li" active-class="active"-->
+        <!--                     to="/myTests" exact>-->
+        <!--          <a href="#" class="waves-effect waves-light pointer">Мои тесты</a>-->
+        <!--        </router-link>-->
       </ul>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    links: [
+      {title: 'Мои тесты', url: '/myTests'},
+      {title: 'Настройка тестов', url: '/tests'},
+      {title: 'Группы студентов', url: '/groupsStudents'},
+      {title: 'Пользователи', url: '/users'},
+      {title: 'Группы пользователей', url: '/groupUsers'}
+    ]
+  })
+}
+</script>

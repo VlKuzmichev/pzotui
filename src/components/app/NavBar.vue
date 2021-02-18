@@ -4,7 +4,7 @@
       <router-link tag="a" active-class="active"
                    to="/myTests" exact>
         <a class="brand-logo left">
-          <img alt=""  src="@/assets/logo.png"/>
+          <img alt="Logo" src="@/assets/logo.png"/>
         </a>
       </router-link>
       <ul id="nav-mobile" class="right">
