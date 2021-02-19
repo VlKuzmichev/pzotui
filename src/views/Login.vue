@@ -1,5 +1,5 @@
 <template>
-  <form class="card auth-card">
+  <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
       <span class="card-title">Авторизация</span>
       <div class="input-field">
@@ -7,6 +7,7 @@
             id="login"
             type="text"
             class="validate"
+            v-model="login"
         >
         <label for="login">Имя пользователя</label>
 <!--        <small class="helper-text invalid">Имя пользователя</small>-->
@@ -16,6 +17,7 @@
             id="password"
             type="password"
             class="validate"
+            v-model="password"
         >
         <label for="password">Пароль</label>
 <!--        <small class="helper-text invalid">Password</small>-->
@@ -35,6 +37,29 @@
   </form>
 
 </template>
+
+<script>
+export default {
+  name: 'login',
+  data: () => ({
+    login: '',
+    password: ''
+  }),
+  methods: {
+    submitHandler(){
+      const formData = {
+        login: this.login,
+        password: this.password
+      }
+
+      console.log(formData);
+      this.$router.push('/');
+    }
+  }
+};
+</script>
+
+
 
 <style lang="css">
 @import '../assets/index.css';
