@@ -1,7 +1,18 @@
 <template>
-  <nav class="white">
+<!--  <div style="width: 10000px;">-->
+<!--    <ul class="blue-grey left">-->
+<!--      <router-link style="display: inline-block"-->
+<!--          v-for="link in links" :key="link.url"-->
+<!--          tag="li" active-class="active"-->
+<!--          :to="link.url"-->
+<!--          :exact="link.exact">-->
+<!--        <a href="#" class="waves-effect waves-light pointer">{{link.title}}</a>-->
+<!--      </router-link>-->
+<!--    </ul>-->
+<!--  </div>-->
+  <nav class="blue-grey">
     <div class="nav-wrapper">
-      <ul class="blue-grey left">
+      <ul class=" left">
         <router-link
             v-for="link in links" :key="link.url"
             tag="li" active-class="active"
