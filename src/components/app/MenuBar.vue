@@ -1,32 +1,21 @@
 <template>
-<!--  <div style="width: 10000px;">-->
-<!--    <ul class="blue-grey left">-->
-<!--      <router-link style="display: inline-block"-->
-<!--          v-for="link in links" :key="link.url"-->
-<!--          tag="li" active-class="active"-->
-<!--          :to="link.url"-->
-<!--          :exact="link.exact">-->
-<!--        <a href="#" class="waves-effect waves-light pointer">{{link.title}}</a>-->
-<!--      </router-link>-->
-<!--    </ul>-->
-<!--  </div>-->
-  <nav class="blue-grey">
-    <div class="nav-wrapper">
-      <ul class=" left">
-        <router-link
-            v-for="link in links" :key="link.url"
-            tag="li" active-class="active"
-            :to="link.url"
-            :exact="link.exact">
-          <a href="#" class="waves-effect waves-light pointer">{{link.title}}</a>
-        </router-link>
-        <!--        <router-link tag="li" active-class="active"-->
-        <!--                     to="/myTests" exact>-->
-        <!--          <a href="#" class="waves-effect waves-light pointer">Мои тесты</a>-->
-        <!--        </router-link>-->
-      </ul>
-    </div>
-  </nav>
+  <div class="tabs-fixed-width">
+    <ul class="row white">
+      <router-link
+          v-for="link in links" :key="link.url"
+          tag="li" active-class="active"
+          :to="link.url"
+          :exact="link.exact">
+        <div class="link"><a href="#"
+                             class="col  waves-effect waves-light #c62828 red darken-3 white-text">{{ link.title }}</a>
+        </div>
+      </router-link>
+      <!--        <router-link tag="li" active-class="active"-->
+      <!--                     to="/myTests" exact>-->
+      <!--          <a href="#" class="waves-effect waves-light pointer">Мои тесты</a>-->
+      <!--        </router-link>-->
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -43,3 +32,10 @@ export default {
   })
 }
 </script>
+
+<style scoped>
+.link > a {
+  padding: 10px;
+  font-size: 1.2em;
+}
+</style>

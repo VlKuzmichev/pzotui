@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="card fixed">+ПОЛЬЗОВАТЕЛИ</div>
-    <a href="#" class="btn grey "> Добавить </a>
+    <h5 class="center">Управление пользователями</h5>
+    <a href="#" class="btn-small #212121 grey darken-4 white-text"> Добавить </a>
     <table class="striped centered">
       <thead>
       <tr>
@@ -57,6 +57,7 @@
       <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
   </div>
+  <!--  </div>-->
 </template>
 
 <script>
@@ -72,3 +73,26 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+td {
+  font-size: 1.3em;
+}
+
+tr td ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+li > a {
+  font-size: 1.3em;
+}
+
+h5 {
+  font-weight: bold;
+}
+
+</style>
