@@ -1,19 +1,16 @@
 <template>
   <div class="tabs-fixed-width">
-    <ul class="row white">
+    <ul class="row">
       <router-link
           v-for="link in links" :key="link.url"
           tag="li" active-class="active"
           :to="link.url"
           :exact="link.exact">
-        <div class="link"><a href="#"
-                             class="col  waves-effect waves-light #c62828 red darken-3 white-text">{{ link.title }}</a>
+        <div class="link">
+          <a href="#"
+             class="col waves-effect waves-light">{{ link.title }}</a>
         </div>
       </router-link>
-      <!--        <router-link tag="li" active-class="active"-->
-      <!--                     to="/myTests" exact>-->
-      <!--          <a href="#" class="waves-effect waves-light pointer">Мои тесты</a>-->
-      <!--        </router-link>-->
     </ul>
   </div>
 </template>
@@ -34,8 +31,29 @@ export default {
 </script>
 
 <style scoped>
-.link > a {
-  padding: 10px;
-  font-size: 1.2em;
+ul {
+  background: #af0404;
 }
+
+a {
+  font-size: 1.2em;
+  background: #af0404;
+  color: white;
+}
+
+.router-link-exact-active a {
+  background: #820202;
+  color: lightgray;
+}
+
+.link > a {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/*.router-link-exact-active a{*/
+/*  background: yellow;*/
+/*  border-radius: 5px;*/
+/*  color: red;*/
+/*}*/
 </style>
