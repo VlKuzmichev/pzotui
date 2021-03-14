@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5 class="center">Управление пользователями</h5>
-    <a href="#" class="btn-small #212121 grey darken-4 white-text"> Добавить </a>
+    <a href="#" class="btn-small add white-text"> Добавить </a>
     <table class="striped centered">
       <thead>
       <tr>
@@ -26,22 +26,22 @@
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text">security</i>
+            <i class="material-icons black-text" title="Сменить пароль">vpn_key</i>
           </a>
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text">edit</i>
+            <i class="material-icons black-text" title="Редактировать профиль">edit</i>
           </a>
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text">group</i>
+            <i class="material-icons black-text" title="Сменить группу">group</i>
           </a>
         </td>
         <td>
           <a href="#">
-            <i class="material-icons red-text">delete_forever</i>
+            <i class="material-icons red-text" title="Удалить" v-on:click="deleteUser(user)">delete_forever</i>
           </a>
         </td>
       </tr>
@@ -62,19 +62,28 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
+//import user from "@/store/modules/user";
 
 export default {
   name: 'Users',
   computed: mapGetters(["allUsers"]),
-  methods: mapActions(["fetchUsers"]),
+  methods: mapActions(["fetchUsers", "deleteUser"]),
+   // deleteUser: {
+   //   userId: user.id
+   // },
   async mounted() {
     //this.$store.dispatch("fetchUsers");
+    // await this.$store.dispatch("deleteUser", user);
+    //console.log(this.user.id);
     await this.fetchUsers();
   }
 };
 </script>
 
 <style scoped>
+.add {
+  background: #323232;
+}
 
 td {
   font-size: 1.3em;

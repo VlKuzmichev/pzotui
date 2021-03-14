@@ -20,9 +20,9 @@ export default {
   data: () => ({
     links: [
       {title: 'Главная', url: '/', exact: true},
-      {title: 'Мои тесты', url: '/myTests'},
-      {title: 'Настройка тестов', url: '/tests'},
-      {title: 'Группы студентов', url: '/groupsStudents'},
+      {title: 'Тестирование', url: '/myTests'},
+      {title: 'Управление тестами', url: '/tests'},
+      {title: 'Группы студентов', url: '/groupStudents'},
       {title: 'Пользователи', url: '/users'},
       {title: 'Группы пользователей', url: '/groupUsers'}
     ]
@@ -32,17 +32,17 @@ export default {
 
 <style scoped>
 ul {
-  background: #af0404;
+  background: #676666;
 }
 
 a {
   font-size: 1.2em;
-  background: #af0404;
+  background: #676666;
   color: white;
 }
 
 .router-link-exact-active a {
-  background: #820202;
+  background: #323232;
   color: lightgray;
 }
 
