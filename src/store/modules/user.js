@@ -38,7 +38,6 @@ export default {
         allUsers(state) {
             // console.log(state.users)
             return state.users
-        }
-
+        },
     }
 }

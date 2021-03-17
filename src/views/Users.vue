@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="row">
     <h5 class="center">Управление пользователями</h5>
-    <a href="#" class="btn-small add white-text"> Добавить </a>
+    <a href="#" class="btn btn-small black waves-effect waves-light left" >Добавить
+      <i class="material-icons right">add</i>
+    </a>
     <table class="striped centered">
       <thead>
       <tr>
@@ -31,7 +33,7 @@
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text" title="Редактировать профиль">edit</i>
+            <i class="material-icons black-text" title="Редактировать" v-on:click.prevent="editUserModal()">edit</i>
           </a>
         </td>
         <td>
@@ -41,7 +43,7 @@
         </td>
         <td>
           <a href="#">
-            <i class="material-icons red-text" title="Удалить" v-on:click="deleteUser(user)">delete_forever</i>
+            <i class="material-icons red-text" title="Удалить" v-on:click.prevent="deleteUser(user)">delete_forever</i>
           </a>
         </td>
       </tr>
@@ -56,19 +58,22 @@
       <li class="waves-effect"><a href="#!">5</a></li>
       <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
+    <EditModal/>
   </div>
-  <!--  </div>-->
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
 //import user from "@/store/modules/user";
+import EditModal from "@/components/popap/EditModal";
 
 export default {
   name: 'Users',
+  components: {EditModal},
   computed: mapGetters(["allUsers"]),
-  methods: mapActions(["fetchUsers", "deleteUser"]),
-   // deleteUser: {
+  methods:  mapActions(["fetchUsers", "deleteUser"]),
+
+  // deleteUser: {
    //   userId: user.id
    // },
   async mounted() {
@@ -80,10 +85,7 @@ export default {
 };
 </script>
 
-<style scoped>
-.add {
-  background: #323232;
-}
+<style >
 
 td {
   font-size: 1.3em;
