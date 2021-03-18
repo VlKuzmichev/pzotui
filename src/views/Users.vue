@@ -33,7 +33,7 @@
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text" title="Редактировать" v-on:click.prevent="editUserModal()">edit</i>
+            <i class="material-icons black-text" title="Редактировать" v-on:click.prevent="editUser()">edit</i>
           </a>
         </td>
         <td>
@@ -71,7 +71,7 @@ export default {
   name: 'Users',
   components: {EditModal},
   computed: mapGetters(["allUsers"]),
-  methods:  mapActions(["fetchUsers", "deleteUser"]),
+  methods:  mapActions(["fetchUsers", "deleteUser", "editUser"]),
 
   // deleteUser: {
    //   userId: user.id

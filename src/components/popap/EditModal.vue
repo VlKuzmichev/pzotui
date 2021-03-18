@@ -2,7 +2,7 @@
   <div class="modal-main">
     <div class="modal-content">
       <div class="row">
-        <h5>Добавление (Редактирование) пользователя</h5>
+        <h5>Редактирование пользователя</h5>
       </div>
       <div class="row">
         <div class="input-field">
@@ -17,20 +17,56 @@
       </div>
       <div class="row group">
         <div class="input-field">
+          <div>Выбор группы</div>
           <select class="user-groups">
-            <option selected value="Чебурашка">Электромеханники</option>
-            <option value="Крокодил Гена">Старшие электромеханники</option>
-            <option value="Шапокляк">Начальники участков</option>
+            <option selected value="">ЭЛЕКТРОМЕХАНИКИ</option>
+            <option value="">СТАРШИЕ ЭЛЕКТРОМЕХАНИКИ</option>
+            <option value="">НАЧАЛЬНИКИ УЧАСТКОВ</option>
           </select>
         </div>
-        <div class="row">
-          <a href="#" class="btn btn-small black waves-effect waves-light left">Сохранить
-            <i class="material-icons right">send</i>
-          </a>
-          <a href="#" class="btn btn-small red waves-effect waves-light right" v-on:click="closeUserModal()">Отмена
-            <i class="material-icons right">block</i>
-          </a>
+      </div>
+      <div class="row group">
+        <div class="input-field">
+          <div>Роли в системе</div>
+          <div class="col md-12">
+            <label>
+              <input type="checkbox" checked="checked"/>
+              <span>Пользователь</span>
+            </label>
+          </div>
+          <div class="col md-12">
+            <label>
+              <input type="checkbox"/>
+              <span>Проверяющий</span>
+            </label>
+          </div>
+          <div class="col md-12">
+            <label>
+              <input type="checkbox"/>
+              <span>Главный проверяющий</span>
+            </label>
+          </div>
+          <div class="col md-12">
+            <label>
+              <input type="checkbox"/>
+              <span>Администратор</span>
+            </label>
+          </div>
+          <div class="col md-12">
+            <label>
+              <input type="checkbox"/>
+              <span>Главный администратор</span>
+            </label>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <a href="#" class="btn btn-small black waves-effect waves-light left">Сохранить
+          <i class="material-icons right">send</i>
+        </a>
+        <a href="#" class="btn btn-small red waves-effect waves-light right" v-on:click="closeUserModal()">Отмена
+          <i class="material-icons right">block</i>
+        </a>
       </div>
     </div>
   </div>
@@ -56,8 +92,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   top: 0;
-  /*display: none;*/
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 15;
@@ -65,23 +100,18 @@ export default {
 
 .modal-content {
   padding: 15px 35px;
-  width: 700px;
-  height: 500px;
+  width: 650px;
+  height: 570px;
   background-color: white;
   border-radius: 4px;
 }
 
 .user-groups {
   display: block;
-  color: white;
-  background-color: #989797;
 }
 
 .user-groups:hover {
-  background-color: #676666;
+  background-color: #f1f1f1;
 }
 
-.btn-small {
-  margin-top: 45px;
-}
 </style>

@@ -20,7 +20,12 @@ export default {
             } else {
                 alert("Не найден элемент: " + user.id);
             }
+        },
+        editUser(ctx) {
+            ctx.commit('EDIT_USER');
         }
+
+
 
     },
     mutations: {
@@ -29,6 +34,10 @@ export default {
         },
         UPDATE_USERS(state, users) {
             state.users = users;
+        },
+        EDIT_USER() {
+            const userModal = document.querySelector('.modal-main');
+            userModal.style.display = 'flex';
         }
     },
     state: {
