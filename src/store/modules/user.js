@@ -9,7 +9,6 @@ export default {
             } else {
                 alert("Ошибка связи с сервером!");
             }
-
         },
         async deleteUser({commit}, user) {
             const res = await fetch('http://localhost:8081/users/' + user.id, {
@@ -23,9 +22,18 @@ export default {
         },
         editUser(ctx) {
             ctx.commit('EDIT_USER');
+        },
+        async fetchUserGroups(ctx) {
+            const res = await fetch("http://localhost:8081/userGroups");
+            if (res.ok) {
+                const userGroups = await res.json();
+                console.log(userGroups);
+                ctx.commit('UPDATE_USER_GROUPS', userGroups);
+            } else {
+                alert("Ошибка связи с сервером!");
+            }
+
         }
-
-
 
     },
     mutations: {
@@ -38,15 +46,21 @@ export default {
         EDIT_USER() {
             const userModal = document.querySelector('.modal-main');
             userModal.style.display = 'flex';
+        },
+        UPDATE_USER_GROUPS(state, userGroups) {
+            state.userGroups = userGroups;
         }
     },
     state: {
-        users: []
+        users: [], userGroups: []
     },
     getters: {
         allUsers(state) {
             // console.log(state.users)
             return state.users
         },
+        allUserGroups(state) {
+            return state.userGroups
+        }
     }
 }

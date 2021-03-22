@@ -19,9 +19,8 @@
         <div class="input-field">
           <div>Выбор группы</div>
           <select class="user-groups">
-            <option selected value="">ЭЛЕКТРОМЕХАНИКИ</option>
-            <option value="">СТАРШИЕ ЭЛЕКТРОМЕХАНИКИ</option>
-            <option value="">НАЧАЛЬНИКИ УЧАСТКОВ</option>
+            <option value="" v-for="userGroup in allUserGroups" :key="userGroup.id">{{ userGroup.name }}</option>
+<!--            <option selected value="">запрос по ID</option>-->
           </select>
         </div>
       </div>
@@ -73,6 +72,9 @@
 </template>
 
 <script>
+
+import {mapGetters} from 'vuex'
+
 export default {
   name: "EditModal",
   methods: {
@@ -80,7 +82,13 @@ export default {
       const userModal = document.querySelector('.modal-main');
       userModal.style.display = 'none';
     }
-  }
+  },
+  computed: mapGetters(["allUserGroups"])
+  // computed: {
+  //   allUserGroups() {
+  //     return this.$store.getters.allUserGroups;
+  //   }
+  // }
 }
 </script>
 

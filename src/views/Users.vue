@@ -64,14 +64,13 @@
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-//import user from "@/store/modules/user";
 import EditModal from "@/components/popap/EditModal";
 
 export default {
   name: 'Users',
-  components: {EditModal},
-  computed: mapGetters(["allUsers"]),
-  methods:  mapActions(["fetchUsers", "deleteUser", "editUser"]),
+  components: { EditModal },
+  computed: mapGetters(["allUsers", "allUserGroups"]),
+  methods:  mapActions(["fetchUsers", "deleteUser", "editUser", "fetchUserGroups"]),
 
   // deleteUser: {
    //   userId: user.id
@@ -81,6 +80,7 @@ export default {
     // await this.$store.dispatch("deleteUser", user);
     //console.log(this.user.id);
     await this.fetchUsers();
+    await this.fetchUserGroups();
   }
 };
 </script>
