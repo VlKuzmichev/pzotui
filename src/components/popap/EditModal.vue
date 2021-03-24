@@ -6,21 +6,20 @@
       </div>
       <div class="row">
         <div class="input-field">
-          <input id="fullName" type="text" placeholder="ФИО">
+          <input id="fullName" type="text" placeholder="ФИО" :value="getUser.fullName">
         </div>
         <div class="input-field">
-          <input id="login" type="text" placeholder="Логин">
+          <input id="login" type="text" placeholder="Логин" :value="getUser.name">
         </div>
         <div class="input-field">
-          <input id="email" type="text" placeholder="E-mail">
+          <input id="email" type="text" placeholder="E-mail" :value="getUser.email">
         </div>
       </div>
       <div class="row group">
         <div class="input-field">
           <div>Выбор группы</div>
-          <select class="user-groups">
-            <option value="" v-for="userGroup in allUserGroups" :key="userGroup.id">{{ userGroup.name }}</option>
-<!--            <option selected value="">запрос по ID</option>-->
+          <select class="user-groups" v-if="getUser.group !== undefined" v-model="getUser.group.name">
+            <option v-for="userGroup in allUserGroups" :key="userGroup.id" >{{ userGroup.name }}</option>
           </select>
         </div>
       </div>
@@ -83,7 +82,8 @@ export default {
       userModal.style.display = 'none';
     }
   },
-  computed: mapGetters(["allUserGroups"])
+  computed: mapGetters(["allUserGroups", "getUser", "getSelected"]),
+
   // computed: {
   //   allUserGroups() {
   //     return this.$store.getters.allUserGroups;

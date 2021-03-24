@@ -4,7 +4,6 @@ export default {
             const res = await fetch("http://localhost:8081/users");
             if (res.ok) {
                 const users = await res.json();
-                //console.log(users);
                 ctx.commit('UPDATE_USERS', users);
             } else {
                 alert("Ошибка связи с сервером!");
@@ -20,19 +19,27 @@ export default {
                 alert("Не найден элемент: " + user.id);
             }
         },
-        editUser(ctx) {
-            ctx.commit('EDIT_USER');
+        async fetchUser(ctx, user) {
+            const res = await fetch("http://localhost:8081/users/" + user.id);
+
+            if (res.ok) {
+                const user = await res.json();
+                ctx.commit('UPDATE_USER', user);
+            } else {
+                alert("Ошибка связи с сервером!");
+            }
+            ctx.commit('EDIT_USER', user);
         },
         async fetchUserGroups(ctx) {
             const res = await fetch("http://localhost:8081/userGroups");
+
             if (res.ok) {
                 const userGroups = await res.json();
-                console.log(userGroups);
+                // console.log(userGroups);
                 ctx.commit('UPDATE_USER_GROUPS', userGroups);
             } else {
                 alert("Ошибка связи с сервером!");
             }
-
         }
 
     },
@@ -43,24 +50,34 @@ export default {
         UPDATE_USERS(state, users) {
             state.users = users;
         },
-        EDIT_USER() {
+        UPDATE_USER(state, user) {
+            state.user = user;
+        },
+        EDIT_USER(state, user) {
             const userModal = document.querySelector('.modal-main');
             userModal.style.display = 'flex';
+            state.selected = user.group.name;
         },
         UPDATE_USER_GROUPS(state, userGroups) {
-            state.userGroups = userGroups;
+           state.userGroups = userGroups;
+           //    state.userGroups = userGroups.filter(ug => ug.name !== state.user.group.name);
         }
     },
     state: {
-        users: [], userGroups: []
+        users: [], userGroups: [], user: {}, selected: {}
     },
     getters: {
         allUsers(state) {
-            // console.log(state.users)
             return state.users
         },
         allUserGroups(state) {
             return state.userGroups
+        },
+        getUser(state) {
+            return state.user
+        },
+        getSelected(state) {
+            return state.selected
         }
     }
 }
