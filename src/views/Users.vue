@@ -33,7 +33,7 @@
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text" title="Редактировать" v-on:click.prevent="fetchUser(user)">edit</i>
+            <i class="material-icons black-text" title="Редактировать" v-on:click.prevent="fetchUserById(user)">edit</i>
           </a>
         </td>
         <td>
@@ -70,7 +70,7 @@ export default {
   name: 'Users',
   components: { EditModal },
   computed: mapGetters(["allUsers", "allUserGroups"]),
-  methods:  mapActions(["fetchUsers", "deleteUser", "fetchUser", "fetchUserGroups"]),
+  methods:  mapActions(["fetchUsers", "deleteUser", "fetchUserById", "fetchUserGroups"]),
 
   async mounted() {
     //this.$store.dispatch("fetchUsers");

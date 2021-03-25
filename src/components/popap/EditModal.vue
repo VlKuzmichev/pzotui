@@ -6,56 +6,62 @@
       </div>
       <div class="row">
         <div class="input-field">
-          <input id="fullName" type="text" placeholder="ФИО" :value="getUser.fullName">
+          <input id="fullName" type="text" placeholder="ФИО" v-model="getUser.fullName">
         </div>
         <div class="input-field">
-          <input id="login" type="text" placeholder="Логин" :value="getUser.name">
+          <input id="login" type="text" placeholder="Логин" v-model="getUser.name">
         </div>
         <div class="input-field">
-          <input id="email" type="text" placeholder="E-mail" :value="getUser.email">
+          <input id="email" type="text" placeholder="E-mail" v-model="getUser.email">
         </div>
       </div>
       <div class="row group">
         <div class="input-field">
           <div>Выбор группы</div>
           <select class="user-groups" v-if="getUser.group !== undefined" v-model="getUser.group.name">
-            <option v-for="userGroup in allUserGroups" :key="userGroup.id" >{{ userGroup.name }}</option>
+            <option v-for="userGroup in allUserGroups" :key="userGroup.id">{{ userGroup.name }}</option>
           </select>
         </div>
-      </div>
-      <div class="row group">
+
         <div class="input-field">
           <div>Роли в системе</div>
-          <div class="col md-12">
-            <label>
-              <input type="checkbox" checked="checked"/>
-              <span>Пользователь</span>
+          <div class="col md-12" v-for="(role, index) in getRoles" :key="index">
+            <label :for="role.name">
+            <input type="checkbox" class="form-check form-check-inline" :id="role.name" v-model="role.checked">
+              <span>{{ role.name }}</span>
             </label>
           </div>
-          <div class="col md-12">
-            <label>
-              <input type="checkbox"/>
-              <span>Проверяющий</span>
-            </label>
-          </div>
-          <div class="col md-12">
-            <label>
-              <input type="checkbox"/>
-              <span>Главный проверяющий</span>
-            </label>
-          </div>
-          <div class="col md-12">
-            <label>
-              <input type="checkbox"/>
-              <span>Администратор</span>
-            </label>
-          </div>
-          <div class="col md-12">
-            <label>
-              <input type="checkbox"/>
-              <span>Главный администратор</span>
-            </label>
-          </div>
+
+         <!--          <div class="col md-12">-->
+          <!--            <label>-->
+          <!--              <input type="checkbox" />-->
+          <!--              <span>Пользователь</span>-->
+          <!--            </label>-->
+          <!--          </div>-->
+          <!--          <div class="col md-12">-->
+          <!--            <label>-->
+          <!--              <input type="checkbox"/>-->
+          <!--              <span>Проверяющий</span>-->
+          <!--            </label>-->
+          <!--          </div>-->
+          <!--          <div class="col md-12">-->
+          <!--            <label>-->
+          <!--              <input type="checkbox"/>-->
+          <!--              <span>Главный проверяющий</span>-->
+          <!--            </label>-->
+          <!--          </div>-->
+          <!--          <div class="col md-12">-->
+          <!--            <label>-->
+          <!--              <input type="checkbox"/>-->
+          <!--              <span>Администратор</span>-->
+          <!--            </label>-->
+          <!--          </div>-->
+          <!--          <div class="col md-12">-->
+          <!--            <label>-->
+          <!--              <input type="checkbox"/>-->
+          <!--              <span>Главный администратор</span>-->
+          <!--            </label>-->
+          <!--          </div>-->
         </div>
       </div>
       <div class="row">
@@ -82,7 +88,7 @@ export default {
       userModal.style.display = 'none';
     }
   },
-  computed: mapGetters(["allUserGroups", "getUser", "getSelected"]),
+  computed: mapGetters(["allUserGroups", "getUser", "getRoles"]),
 
   // computed: {
   //   allUserGroups() {

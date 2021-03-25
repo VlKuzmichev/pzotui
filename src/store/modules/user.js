@@ -19,7 +19,7 @@ export default {
                 alert("Не найден элемент: " + user.id);
             }
         },
-        async fetchUser(ctx, user) {
+        async fetchUserById(ctx, user) {
             const res = await fetch("http://localhost:8081/users/" + user.id);
 
             if (res.ok) {
@@ -60,11 +60,15 @@ export default {
         },
         UPDATE_USER_GROUPS(state, userGroups) {
            state.userGroups = userGroups;
-           //    state.userGroups = userGroups.filter(ug => ug.name !== state.user.group.name);
         }
     },
     state: {
-        users: [], userGroups: [], user: {}, selected: {}
+        users: [], userGroups: [], user: {},
+        roles: [
+            {name: "ROLE_USER", checked: true},
+            {name: "ROLE_EXAMINER", checked: false},
+            {name: "ROLE_ADMIN", checked: false}
+            ]
     },
     getters: {
         allUsers(state) {
@@ -74,10 +78,11 @@ export default {
             return state.userGroups
         },
         getUser(state) {
+            console.log(state.user)
             return state.user
         },
-        getSelected(state) {
-            return state.selected
+        getRoles(state) {
+            return state.roles
         }
     }
 }
