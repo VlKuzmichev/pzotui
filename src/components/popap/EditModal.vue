@@ -28,7 +28,7 @@
           <div class="col md-12" v-for="(role, index) in getRoles" :key="index">
             <label :for="role.name">
             <input type="checkbox" class="form-check form-check-inline" :id="role.name" v-model="role.checked">
-              <span>{{ role.name }}</span>
+              <span>{{ role.title }}</span>
             </label>
           </div>
 

@@ -56,19 +56,24 @@ export default {
         EDIT_USER(state, user) {
             const userModal = document.querySelector('.modal-main');
             userModal.style.display = 'flex';
-            state.selected = user.group.name;
+            state.roles.forEach(sr => sr.checked = false);
+            user.roles.forEach(ur =>
+                state.roles.forEach(sr =>
+                    sr.name === ur ? sr.checked = true : null
+                )
+            )
         },
         UPDATE_USER_GROUPS(state, userGroups) {
-           state.userGroups = userGroups;
+            state.userGroups = userGroups;
         }
     },
     state: {
         users: [], userGroups: [], user: {},
         roles: [
-            {name: "ROLE_USER", checked: true},
-            {name: "ROLE_EXAMINER", checked: false},
-            {name: "ROLE_ADMIN", checked: false}
-            ]
+            {name: "ROLE_USER", title: "Пользователь", checked: false},
+            {name: "ROLE_EXAMINER", title: "Проверяющий", checked: false},
+            {name: "ROLE_ADMIN", title: "Администратор", checked: false}
+        ]
     },
     getters: {
         allUsers(state) {
@@ -78,7 +83,7 @@ export default {
             return state.userGroups
         },
         getUser(state) {
-            console.log(state.user)
+           // console.log(state.user)
             return state.user
         },
         getRoles(state) {
