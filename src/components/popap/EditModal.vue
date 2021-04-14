@@ -2,72 +2,66 @@
   <div class="modal-main">
     <div class="modal-content">
       <div class="row">
-        <h5>Редактирование пользователя</h5>
+        <h5 class="title-modal center">123</h5>
       </div>
       <div class="row">
         <div class="input-field">
-          <input id="fullName" type="text" placeholder="ФИО" v-model="getUser.fullName">
+          <input id="fullName" type="text" placeholder="ФИО" v-model="user.fullName">
         </div>
         <div class="input-field">
-          <input id="login" type="text" placeholder="Логин" v-model="getUser.name">
+          <input id="login" type="text" placeholder="Логин" v-model="user.name">
         </div>
         <div class="input-field">
-          <input id="email" type="text" placeholder="E-mail" v-model="getUser.email">
+          <input id="email" type="text" placeholder="E-mail" v-model="user.email">
         </div>
       </div>
+
       <div class="row group">
         <div class="input-field">
           <div>Выбор группы</div>
-          <select class="user-groups" v-if="getUser.group !== undefined" v-model="getUser.group.name">
-            <option v-for="userGroup in allUserGroups" :key="userGroup.id">{{ userGroup.name }}</option>
+          <select class="user-groups" v-model="user.group.name">
+            <option v-for="userGroup in userGroups" :key="userGroup.id">{{ userGroup.name }}</option>
           </select>
         </div>
+      </div>
 
+      <div class="row">
         <div class="input-field">
           <div>Роли в системе</div>
-          <div class="col md-12" v-for="(role, index) in getRoles" :key="index">
+          <div class="col md-12" v-for="(role, index) in userRoles" :key="index">
             <label :for="role.name">
-            <input type="checkbox" class="form-check form-check-inline" :id="role.name" v-model="role.checked">
+              <input type="checkbox" class="form-check form-check-inline" :id="role.name" v-model="role.checked">
               <span>{{ role.title }}</span>
             </label>
           </div>
-
-         <!--          <div class="col md-12">-->
-          <!--            <label>-->
-          <!--              <input type="checkbox" />-->
-          <!--              <span>Пользователь</span>-->
-          <!--            </label>-->
-          <!--          </div>-->
-          <!--          <div class="col md-12">-->
-          <!--            <label>-->
-          <!--              <input type="checkbox"/>-->
-          <!--              <span>Проверяющий</span>-->
-          <!--            </label>-->
-          <!--          </div>-->
-          <!--          <div class="col md-12">-->
-          <!--            <label>-->
-          <!--              <input type="checkbox"/>-->
-          <!--              <span>Главный проверяющий</span>-->
-          <!--            </label>-->
-          <!--          </div>-->
-          <!--          <div class="col md-12">-->
-          <!--            <label>-->
-          <!--              <input type="checkbox"/>-->
-          <!--              <span>Администратор</span>-->
-          <!--            </label>-->
-          <!--          </div>-->
-          <!--          <div class="col md-12">-->
-          <!--            <label>-->
-          <!--              <input type="checkbox"/>-->
-          <!--              <span>Главный администратор</span>-->
-          <!--            </label>-->
-          <!--          </div>-->
+          <!--          <div class="col md-12" v-for="(role, index) in roles" :key="index">-->
+<!--            <label :for="role">-->
+<!--              <input type="checkbox" class="form-check form-check-inline" v-model="roles" :id="role" :checked="role.checked">-->
+<!--              <span>{{ role.title }}</span>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--          <input type="checkbox" class="col md-12 form-check form-check-inline" id="user" :value="roles[0].name" v-model="checkedRoles[0]">-->
+<!--          <label for="user">Джек</label>-->
+<!--          <input type="checkbox" class="col md-12 form-check form-check-inline" id="exam" :value="roles[1].name" v-model="checkedRoles[1]">-->
+<!--          <label for="exam">Джон</label>-->
+<!--          <input type="checkbox"  class="col md-12 form-check form-check-inline" id="admin" :value="roles[2].name" v-model="checkedRoles[2]">-->
+<!--          <label for="admin">Майк</label>-->
+<!--          <input type="checkbox" id="jack" value="Джек" >-->
+<!--          <label for="jack">Джек</label>-->
+<!--          <input type="checkbox" id="john" value="Джон" >-->
+<!--          <label for="john">Джон</label>-->
+<!--          <input type="checkbox" id="mike" value="Майк" >-->
+<!--          <label for="mike">Майк</label>-->
         </div>
+
       </div>
       <div class="row">
-        <a href="#" class="btn btn-small black waves-effect waves-light left">Сохранить
-          <i class="material-icons right">send</i>
-        </a>
+        <!--        <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="fetchToSaveUser(getUser, getUserGroup)">Сохранить-->
+        <!--          <i class="material-icons right">send</i>-->
+        <!--        </a>-->
+                <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="logg">Сохранить
+                  <i class="material-icons right">send</i>
+                </a>
         <a href="#" class="btn btn-small red waves-effect waves-light right" v-on:click="closeUserModal()">Отмена
           <i class="material-icons right">block</i>
         </a>
@@ -78,17 +72,97 @@
 
 <script>
 
-import {mapGetters} from 'vuex'
+// import {mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "EditModal",
-  methods: {
-    closeUserModal() {
-      const userModal = document.querySelector('.modal-main');
-      userModal.style.display = 'none';
+  props: {
+    user: {},
+    groups: Array,
+    roles: Array
+  },
+  data() {
+    return {
+      isModalVisible: '',
+      userGroups: this.groups,
+      userRoles: this.roles
+      // roles: [
+      //   {
+      //     name: 'ROLE_USER',
+      //     title: 'Пользователь',
+      //     checked: null
+      //   },
+      //   {
+      //     name: 'ROLE_EXAMINER',
+      //     title: 'Проверяющий',
+      //     checked: null
+      //   },
+      //   {
+      //     name: 'ROLE_ADMIN',
+      //     title: 'Администратор',
+      //     checked: null
+      //   },
+      // ]
     }
   },
-  computed: mapGetters(["allUserGroups", "getUser", "getRoles"]),
+  created() {
+    return {
+    }
+  },
+  methods: {
+    closeUserModal() {
+      this.$emit("closeModal", this.isModalVisible);
+      this.isModalVisible = false;
+    },
+    logg() {
+      console.log(this.userRoles)
+    }
+  }
+  // created() {
+  //   return {
+  //     //this.props.user
+  //   }
+  // }
+  // computed: mapGetters(["allUserGroups", "getUser", "getRoles", "getUserGroup"]),
+  // methods: {//mapActions(["fetchToSaveUser", "closeUserModal"]), {
+  //   ...mapActions(["fetchToSaveUser", "closeUserModal", "fetchUserGroupByName","changeUserGroup"]),
+  //  }
+
+  // async saveUser() {
+  //   await this.fetchToSaveUser();
+  // },
+  // closeUserModal() {
+  //   const userModal = document.querySelector('.modal-main');
+  //   userModal.style.display = 'none';
+  // },
+  // saveUser() {
+  //  console.log(this.user.user)
+  //  console.log(this.newUser)
+
+  // const fullName = document.querySelector('#full-name');
+  // const login = document.querySelector('#login');
+  //  console.log(login.getAttribute("value"));
+  // const email = document.querySelector('#email');
+  // const userGroupForAdd = document.querySelector('#group-for-add');
+  // this.newUser = {
+  //   name: login,
+  //   email: email,
+  //   fullName: fullName,
+  //   group: userGroupForAdd
+  // }
+//      console.log(this.user.user)
+  // const userGroupForEdit = document.querySelector('#group-for-edit');
+  // this.$store.user = {
+  //   name: login,
+  //   email: email,
+  //   fullName: fullName,
+  //   userGroup: userGroupForAdd !== undefined ? userGroupForAdd.textContent : userGroupForEdit.textContent
+  //
+  // };
+  //console.log(this.$store.user)
+  // }
+  // }
+
 
   // computed: {
   //   allUserGroups() {
@@ -106,10 +180,11 @@ export default {
   background-color: rgba(0, 0, 0, 0.7);
   position: absolute;
   top: 0;
-  display: none;
+  /*display: none;*/
   justify-content: center;
   align-items: center;
   z-index: 15;
+  display: flex;
 }
 
 .modal-content {

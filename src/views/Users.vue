@@ -1,9 +1,9 @@
 <template>
   <div class="row">
     <h5 class="center">Управление пользователями</h5>
-    <a href="#" class="btn btn-small black waves-effect waves-light left" >Добавить
-      <i class="material-icons right">add</i>
-    </a>
+    <!--    <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click.prevent="addUser()">Добавить-->
+    <!--      <i class="material-icons right">add</i>-->
+    <!--    </a>-->
     <table class="striped centered">
       <thead>
       <tr>
@@ -15,7 +15,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="users" v-for="user in allUsers" :key="user.id">
+      <tr class="users" v-for="user in users" :key="user.id">
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.fullName }}</td>
@@ -33,17 +33,12 @@
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text" title="Редактировать" v-on:click.prevent="fetchUserById(user)">edit</i>
+            <i class="material-icons black-text" title="Редактировать" v-on:click="fetchUser(user)">edit</i>
           </a>
         </td>
         <td>
           <a href="#">
-            <i class="material-icons black-text" title="Сменить группу">group</i>
-          </a>
-        </td>
-        <td>
-          <a href="#">
-            <i class="material-icons red-text" title="Удалить" v-on:click.prevent="deleteUser(user)">delete_forever</i>
+            <!--            <i class="material-icons red-text" title="Удалить" v-on:click.prevent="deleteUser(user)">delete_forever</i>-->
           </a>
         </td>
       </tr>
@@ -58,30 +53,95 @@
       <li class="waves-effect"><a href="#!">5</a></li>
       <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
-    <EditModal/>
+    <EditModal :user="user" :groups="groups" :roles="roles" v-if="isModalVisible" @closeModal="closeModal"/>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+// import {mapGetters, mapActions} from 'vuex'
 import EditModal from "@/components/popap/EditModal";
+// import user from "../modules/user";
+//import "@/modules/user";
 
 export default {
   name: 'Users',
-  components: { EditModal },
-  computed: mapGetters(["allUsers", "allUserGroups"]),
-  methods:  mapActions(["fetchUsers", "deleteUser", "fetchUserById", "fetchUserGroups"]),
-
-  async mounted() {
-    //this.$store.dispatch("fetchUsers");
-    // await this.$store.dispatch("deleteUser", user);
-    await this.fetchUsers();
-    await this.fetchUserGroups();
+  data() {
+    return {
+      users: [],
+      user: {},
+      groups: [],
+      isModalVisible: false,
+      roles: [
+        {
+          name: 'ROLE_USER',
+          title: 'Пользователь',
+          checked: null
+        },
+        {
+          name: 'ROLE_EXAMINER',
+          title: 'Проверяющий',
+          checked: null
+        },
+        {
+          name: 'ROLE_ADMIN',
+          title: 'Администратор',
+          checked: null
+        },
+      ]
+    }
   },
+  components: { EditModal },
+  async created() {
+    const res = await fetch("http://localhost:8081/users");
+    if (res.ok) {
+      this.users = await res.json();
+    } else {
+      alert("Ошибка связи с сервером!");
+    }
+
+    const res2 = await fetch("http://localhost:8081/userGroups");
+    if (res.ok) {
+      this.groups = await res2.json();
+    } else {
+      alert("Ошибка связи с сервером!");
+    }
+  },
+  methods: {
+    closeModal(isModalVisible) {
+      //console.log(isModalVisible)
+      this.isModalVisible = isModalVisible;
+    },
+    async fetchUser(user) {
+      const res = await fetch("http://localhost:8081/users/" + user.id);
+      if (res.ok) {
+        this.user = await res.json();
+        this.isModalVisible = true;
+        this.roles.forEach(sr => sr.checked = false);
+        this.user.roles.forEach(ur =>
+            this.roles.forEach(rl =>
+                rl.name === ur ? rl.checked = true : false
+            )
+        )
+//        console.log(this.roles)
+      } else {
+        alert("Ошибка связи с сервером!");
+      }
+    }
+  },
+  // computed: mapGetters(["allUsers", "allUserGroups"]),
+  // methods:  mapActions(["fetchUsers", "deleteUser", "fetchUserById", "fetchUserGroups", "addUser"]),
+
+  // async mounted() {
+  // this.users = await this.fetchUsers();
+  //this.$store.dispatch("fetchUsers");
+  // await this.$store.dispatch("deleteUser", user);
+//    await this.fetchUsers();
+//    await this.fetchUserGroups();
+//   }
 };
 </script>
 
-<style >
+<style>
 
 td {
   font-size: 1.3em;
