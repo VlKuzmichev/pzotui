@@ -53,7 +53,8 @@
       <li class="waves-effect"><a href="#!">5</a></li>
       <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
-    <EditModal :user="user" :groups="groups" :roles="roles" v-if="isModalVisible" @closeModal="closeModal"/>
+    <EditModal :user="user" :groups="groups" :roles="roles"
+               :isNewUser="false" v-if="isModalVisible" @closeModal="closeModal" @changeUser="changeUser"/>
   </div>
 </template>
 
@@ -87,7 +88,9 @@ export default {
           title: 'Администратор',
           checked: null
         },
-      ]
+      ],
+      isNewUser: false
+
     }
   },
   components: { EditModal },
@@ -111,6 +114,11 @@ export default {
       //console.log(isModalVisible)
       this.isModalVisible = isModalVisible;
     },
+    changeUser(user) {
+      this.user = user;
+      this.users = this.users.filter(u => u.id !== this.user.id);
+      this.users.push(user)
+    },
     async fetchUser(user) {
       const res = await fetch("http://localhost:8081/users/" + user.id);
       if (res.ok) {
@@ -122,7 +130,6 @@ export default {
                 rl.name === ur ? rl.checked = true : false
             )
         )
-//        console.log(this.roles)
       } else {
         alert("Ошибка связи с сервером!");
       }
