@@ -1,9 +1,9 @@
 <template>
   <div class="row">
     <h5 class="center">Управление пользователями</h5>
-    <!--    <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click.prevent="addUser()">Добавить-->
-    <!--      <i class="material-icons right">add</i>-->
-    <!--    </a>-->
+    <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="addUser">Добавить
+      <i class="material-icons right">add</i>
+    </a>
     <table class="striped centered">
       <thead>
       <tr>
@@ -53,8 +53,8 @@
       <li class="waves-effect"><a href="#!">5</a></li>
       <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
-    <EditModal :user="user" :groups="groups" :roles="roles"
-               :isNewUser="false" v-if="isModalVisible" @closeModal="closeModal" @changeUser="changeUser"/>
+    <EditModal :user="user" :isNewUser="isNewUser" :groups="groups" :roles="roles"
+               v-if="isModalVisible" @closeModal="closeModal" @changeUser="changeUser"/>
   </div>
 </template>
 
@@ -90,10 +90,9 @@ export default {
         },
       ],
       isNewUser: false
-
     }
   },
-  components: { EditModal },
+  components: {EditModal},
   async created() {
     const res = await fetch("http://localhost:8081/users");
     if (res.ok) {
@@ -111,13 +110,27 @@ export default {
   },
   methods: {
     closeModal(isModalVisible) {
-      //console.log(isModalVisible)
       this.isModalVisible = isModalVisible;
     },
     changeUser(user) {
-      this.user = user;
-      this.users = this.users.filter(u => u.id !== this.user.id);
-      this.users.push(user)
+      if (this.isNewUser) {
+        this.users.push(user)
+      } else {
+        this.user = user;
+        this.users = this.users.filter(u => u.id !== this.user.id);
+        this.users.push(user)
+      }
+    },
+    addUser() {
+      this.user = {};
+      this.user.name = "";
+      this.user.email = "";
+      this.user.password = null;
+      this.user.fullName = "";
+      this.user.group = {};
+      this.user.roles = this.roles.forEach(sr => sr.checked = false);
+      this.isModalVisible = true;
+      this.isNewUser = true;
     },
     async fetchUser(user) {
       const res = await fetch("http://localhost:8081/users/" + user.id);
@@ -130,6 +143,7 @@ export default {
                 rl.name === ur ? rl.checked = true : false
             )
         )
+        this.isNewUser = false;
       } else {
         alert("Ошибка связи с сервером!");
       }

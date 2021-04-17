@@ -1,9 +1,11 @@
 <template>
   <div class="modal-main">
     <div class="modal-content">
+
       <div class="row">
         <h5 class="title-modal center">{{ isNew ? "Новый пользователь" : "Редактирование пользователя" }}</h5>
       </div>
+
       <div class="row">
         <div class="input-field">
           <input id="fullName" type="text" placeholder="ФИО" v-model="editedUser.fullName">
@@ -35,12 +37,9 @@
             </label>
           </div>
         </div>
-
       </div>
+
       <div class="row">
-        <!--        <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="fetchToSaveUser(getUser, getUserGroup)">Сохранить-->
-        <!--          <i class="material-icons right">send</i>-->
-        <!--        </a>-->
         <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="saveUser">Сохранить
           <i class="material-icons right">send</i>
         </a>
@@ -48,6 +47,7 @@
           <i class="material-icons right">block</i>
         </a>
       </div>
+
     </div>
   </div>
 </template>
@@ -83,25 +83,37 @@ export default {
       this.editedUser.roles = this.userRoles
           .filter(rl => rl.checked === true)
           .map(rl => rl.name);
-      //let grp = this.userGroups.filter(gr => gr.name === this.editedUser.group.name)[0]
       this.editedUser.group = this.userGroups.filter(gr => gr.name === this.editedUser.group.name)[0];
-      this.$emit("changeUser", this.editedUser);
-      this.closeUserModal();
-      // console.log(grp)
-      //  console.log(this.editedUser)
-
-      try {
-        await fetch('http://localhost:8081/users/' + this.editedUser.id, {
-          method: 'PUT',
-          body: JSON.stringify(this.editedUser),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-      } catch (error) {
-        console.error('Ошибка:', error);
+      if (this.isNew) {
+        try {
+          const res = await fetch('http://localhost:8081/users/', {
+            method: 'POST',
+            body: JSON.stringify(this.editedUser),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          this.editedUser = await res.json();
+          this.$emit("changeUser", this.editedUser);
+          this.closeUserModal();
+        } catch (error) {
+          console.error('Ошибка:', error);
+        }
+      } else {
+        try {
+          await fetch('http://localhost:8081/users/' + this.editedUser.id, {
+            method: 'PUT',
+            body: JSON.stringify(this.editedUser),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          this.$emit("changeUser", this.editedUser);
+          this.closeUserModal();
+        } catch (error) {
+          console.error('Ошибка:', error);
+        }
       }
-
       // const res = await fetch("http://localhost:8081/users/" + this.editedUser.id);
       //
       // if (res.ok) {
