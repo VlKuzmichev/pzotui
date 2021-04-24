@@ -38,7 +38,7 @@
         </td>
         <td>
           <a href="#">
-            <!--            <i class="material-icons red-text" title="Удалить" v-on:click.prevent="deleteUser(user)">delete_forever</i>-->
+            <i class="material-icons red-text" title="Удалить" v-on:click="deleteUser(user)">delete_forever</i>
           </a>
         </td>
       </tr>
@@ -147,6 +147,16 @@ export default {
       } else {
         alert("Ошибка связи с сервером!");
       }
+    },
+    async deleteUser(user) {
+          const res = await fetch('http://localhost:8081/users/' + user.id, {
+              method: 'DELETE',
+          });
+          if (res.ok) {
+            this.users.splice(this.users.indexOf(user), 1);
+          } else {
+              alert("Не найден элемент: " + user.id);
+          }
     }
   },
   // computed: mapGetters(["allUsers", "allUserGroups"]),
