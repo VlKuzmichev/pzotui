@@ -8,6 +8,12 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
+            path: '/',
+            name: 'home',
+            meta: {layout: 'main'},
+            component: () => import('./views/Home.vue')
+        },
+        {
             path: '/login',
             name: 'login',
             meta: {layout: 'empty'},

@@ -59,10 +59,8 @@
 </template>
 
 <script>
-// import {mapGetters, mapActions} from 'vuex'
 import EditModal from "@/components/popap/EditModal";
-// import user from "../modules/user";
-//import "@/modules/user";
+// import auth from "../modules/auth";
 
 export default {
   name: 'Users',
@@ -94,19 +92,24 @@ export default {
   },
   components: {EditModal},
   async created() {
-    const res = await fetch("http://localhost:8081/users");
-    if (res.ok) {
-      this.users = await res.json();
-    } else {
-      alert("Ошибка связи с сервером!");
-    }
-
-    const res2 = await fetch("http://localhost:8081/userGroups");
-    if (res.ok) {
-      this.groups = await res2.json();
-    } else {
-      alert("Ошибка связи с сервером!");
-    }
+    let auth = JSON.parse(localStorage.getItem('user'));
+    //let auth = 'Basic ' + window.btoa('user:password');
+  //  console.log(auth)
+    let uri = "http://localhost:8081/users";
+    let headers = new Headers();
+    headers.append('Accept', 'application/json');
+    headers.append('Authorization', 'Basic ' + auth);
+    let request = new Request(uri, {
+      method: 'GET',
+      headers: headers,
+      credentials: 'same-origin'
+    });
+    await fetch(request)
+        .then(response => {return response.json()})
+        .then((resp) => {
+            this.users = resp;
+     //       console.log(this.users);
+        })
   },
   methods: {
     closeModal(isModalVisible) {
@@ -149,26 +152,16 @@ export default {
       }
     },
     async deleteUser(user) {
-          const res = await fetch('http://localhost:8081/users/' + user.id, {
-              method: 'DELETE',
-          });
-          if (res.ok) {
-            this.users.splice(this.users.indexOf(user), 1);
-          } else {
-              alert("Не найден элемент: " + user.id);
-          }
+      const res = await fetch('http://localhost:8081/users/' + user.id, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        this.users.splice(this.users.indexOf(user), 1);
+      } else {
+        alert("Не найден элемент: " + user.id);
+      }
     }
   },
-  // computed: mapGetters(["allUsers", "allUserGroups"]),
-  // methods:  mapActions(["fetchUsers", "deleteUser", "fetchUserById", "fetchUserGroups", "addUser"]),
-
-  // async mounted() {
-  // this.users = await this.fetchUsers();
-  //this.$store.dispatch("fetchUsers");
-  // await this.$store.dispatch("deleteUser", user);
-//    await this.fetchUsers();
-//    await this.fetchUserGroups();
-//   }
 };
 </script>
 
