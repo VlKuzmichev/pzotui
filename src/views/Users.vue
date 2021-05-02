@@ -94,7 +94,6 @@ export default {
   async created() {
     let auth = JSON.parse(localStorage.getItem('user'));
     //let auth = 'Basic ' + window.btoa('user:password');
-  //  console.log(auth)
     let uri = "http://localhost:8081/users";
     let headers = new Headers();
     headers.append('Accept', 'application/json');
@@ -110,6 +109,9 @@ export default {
             this.users = resp;
      //       console.log(this.users);
         })
+    if (request.status == '403') {
+      await this.$router.push('/');
+    }
   },
   methods: {
     closeModal(isModalVisible) {

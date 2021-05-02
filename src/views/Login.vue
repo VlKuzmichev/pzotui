@@ -44,11 +44,10 @@ export default {
   data: () => ({
     username: '',
     password: '',
-    users: []
+    //users: []
   }),
   methods: {
     async submitHandler() {
-      //let encoded = window.btoa(this.username + ':' + this.password);
       let auth = 'Basic ' + window.btoa(this.username + ':' + this.password);
       let uri = "http://localhost:8081/";
       let headers = new Headers();
@@ -59,43 +58,13 @@ export default {
         headers: headers,
         credentials: 'same-origin'
       });
-      await fetch(request)
-          // .then((resp) => {
-          //   if (resp.ok) {
-          //     return resp.json()
-          //   } else {
-          //     throw new Error('Bad HTTP Stuff')
-          //   }
-          //
-          //})
-         //  .then(user => {
-         //    // login successful if there's a user in the response
-         //    if (user) {
-         //      // store user details and basic auth credentials in local storage
-         //      // to keep user logged in between page refreshes
-         // //     user.authdata = window.btoa(this.username + ':' + this.password);
-         //  //    localStorage.setItem('user', JSON.stringify(user));
-         //    }
-         //    return user;
-         //  })
-          localStorage.setItem('user', JSON.stringify(window.btoa(this.username + ':' + this.password)))
-          .then((jsonData) => {
-            console.log(jsonData);
-          })
-      // if (resp.ok) {
-      //   console.log('Ok')
-      //   console.log(await resp)
-      //   //console.log(await resp.)
-      // }
-      //  await fetch('http://localhost:8081/users', {
-      //   method: 'POST',
-      //   headers: {'Authorization': 'Basic ' + 'dXNlcjpwYXNzd29yZA=='},
-      //  'Content-Type': 'application/json',
-      // body: JSON.stringify(formData),
-      //   "mode": "cors"
-      //  })//.then(json => console.log(json));
-      // console.log(formData);
-      //   await this.$router.push('/users');
+      const resp = await fetch(request)
+      if (resp.status == '200') {
+        localStorage.setItem('user', JSON.stringify(window.btoa(this.username + ':' + this.password)));
+        await this.$router.push('/users');
+      }else {
+        localStorage.removeItem('user');
+      }
     }
   }
 };
