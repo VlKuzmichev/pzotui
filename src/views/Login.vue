@@ -20,6 +20,7 @@
             v-model="password"
         >
         <label for="password">Пароль</label>
+        <div class="helper-text invalid " v-if="auth_error">Не верное имя пользователя или пароль</div>
         <!--        <small class="helper-text invalid">Password</small>-->
       </div>
     </div>
@@ -42,6 +43,7 @@
 export default {
   name: 'login',
   data: () => ({
+    auth_error: '',
     username: '',
     password: '',
     //users: []
@@ -58,18 +60,20 @@ export default {
         headers: headers,
         credentials: 'same-origin'
       });
-      const resp = await fetch(request)
-      if (resp.status == '200') {
+      const resp = await fetch(request).catch(error => alert(error.message));
+      if (resp.status === 200) {
         localStorage.setItem('user', JSON.stringify(window.btoa(this.username + ':' + this.password)));
-        await this.$router.push('/users');
+        await this.$router.push('/');
       }else {
+        if (resp.status === 401) {
+          this.auth_error = true;
+        }
         localStorage.removeItem('user');
       }
     }
   }
 };
 </script>
-
 
 <style lang="css">
 @import '../assets/index.css';

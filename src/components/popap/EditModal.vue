@@ -47,7 +47,6 @@
           <i class="material-icons right">block</i>
         </a>
       </div>
-
     </div>
   </div>
 </template>
@@ -84,101 +83,46 @@ export default {
           .filter(rl => rl.checked === true)
           .map(rl => rl.name);
       this.editedUser.group = this.userGroups.filter(gr => gr.name === this.editedUser.group.name)[0];
+      let auth = JSON.parse(localStorage.getItem('user'));
+      let headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Content-Type', 'application/json');
+      headers.append('Authorization', 'Basic ' + auth);
       if (this.isNew) {
         try {
-          const res = await fetch('http://localhost:8081/users/', {
+          let request = new Request("http://localhost:8081/users/", {
             method: 'POST',
             body: JSON.stringify(this.editedUser),
-            headers: {
-              'Content-Type': 'application/json'
-            }
+            headers: headers,
+            credentials: 'same-origin'
           });
+          const res = await fetch(request);
           this.editedUser = await res.json();
           this.$emit("changeUser", this.editedUser);
           this.closeUserModal();
         } catch (error) {
-          console.error('Ошибка:', error);
+//          console.error('Ошибка:', error);
         }
       } else {
         try {
-          await fetch('http://localhost:8081/users/' + this.editedUser.id, {
+          let request = new Request('http://localhost:8081/users/' + this.editedUser.id, {
             method: 'PUT',
             body: JSON.stringify(this.editedUser),
-            headers: {
-              'Content-Type': 'application/json'
-            }
+            headers: headers,
+            credentials: 'same-origin'
           });
+          await fetch(request);
           this.$emit("changeUser", this.editedUser);
           this.closeUserModal();
         } catch (error) {
-          console.error('Ошибка:', error);
+//          console.error('Ошибка:', error);
         }
       }
-      // const res = await fetch("http://localhost:8081/users/" + this.editedUser.id);
-      //
-      // if (res.ok) {
-      //   const user = await res.json();
-      //   console.log(user)
-      // } else {
-      //   alert("Ошибка связи с сервером!");
-      // }
-
     },
     logg() {
       console.log(this.userRoles)
     }
   }
-  // created() {
-  //   return {
-  //     //this.props.user
-  //   }
-  // }
-  // computed: mapGetters(["allUserGroups", "getUser", "getRoles", "getUserGroup"]),
-  // methods: {//mapActions(["fetchToSaveUser", "closeUserModal"]), {
-  //   ...mapActions(["fetchToSaveUser", "closeUserModal", "fetchUserGroupByName","changeUserGroup"]),
-  //  }
-
-  // async saveUser() {
-  //   await this.fetchToSaveUser();
-  // },
-  // closeUserModal() {
-  //   const userModal = document.querySelector('.modal-main');
-  //   userModal.style.display = 'none';
-  // },
-  // saveUser() {
-  //  console.log(this.user.user)
-  //  console.log(this.newUser)
-
-  // const fullName = document.querySelector('#full-name');
-  // const login = document.querySelector('#login');
-  //  console.log(login.getAttribute("value"));
-  // const email = document.querySelector('#email');
-  // const userGroupForAdd = document.querySelector('#group-for-add');
-  // this.newUser = {
-  //   name: login,
-  //   email: email,
-  //   fullName: fullName,
-  //   group: userGroupForAdd
-  // }
-//      console.log(this.user.user)
-  // const userGroupForEdit = document.querySelector('#group-for-edit');
-  // this.$store.user = {
-  //   name: login,
-  //   email: email,
-  //   fullName: fullName,
-  //   userGroup: userGroupForAdd !== undefined ? userGroupForAdd.textContent : userGroupForEdit.textContent
-  //
-  // };
-  //console.log(this.$store.user)
-  // }
-  // }
-
-
-  // computed: {
-  //   allUserGroups() {
-  //     return this.$store.getters.allUserGroups;
-  //   }
-  // }
 }
 </script>
 

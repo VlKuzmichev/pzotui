@@ -55,21 +55,24 @@
     </ul>
     <EditModal :user="user" :isNewUser="isNewUser" :groups="groups" :roles="roles"
                v-if="isModalVisible" @closeModal="closeModal" @changeUser="changeUser"/>
+<!--    <ErrorModal :error_message="error_message" v-if="isErrorVisible"/>-->
   </div>
 </template>
 
 <script>
 import EditModal from "@/components/popap/EditModal";
-// import auth from "../modules/auth";
+// import ErrorModal from "@/components/popap/ErrorModal";
 
 export default {
   name: 'Users',
   data() {
     return {
+      error_message: '',
       users: [],
       user: {},
       groups: [],
       isModalVisible: false,
+      isErrorVisible: false,
       roles: [
         {
           name: 'ROLE_USER',
@@ -93,24 +96,36 @@ export default {
   components: {EditModal},
   async created() {
     let auth = JSON.parse(localStorage.getItem('user'));
-    //let auth = 'Basic ' + window.btoa('user:password');
-    let uri = "http://localhost:8081/users";
     let headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Authorization', 'Basic ' + auth);
-    let request = new Request(uri, {
+    let request = new Request("http://localhost:8081/users", {
       method: 'GET',
       headers: headers,
       credentials: 'same-origin'
     });
-    await fetch(request)
-        .then(response => {return response.json()})
-        .then((resp) => {
-            this.users = resp;
-     //       console.log(this.users);
-        })
-    if (request.status == '403') {
-      await this.$router.push('/');
+    const resp = await fetch(request);
+    if (resp.ok) {
+      this.users = await resp.json();
+      let request_for_groups = new Request("http://localhost:8081/userGroups", {
+        method: 'GET',
+        headers: headers,
+        credentials: 'same-origin'
+      });
+      const group_req = await fetch(request_for_groups);
+      if (group_req.ok) {
+        this.groups = await group_req.json();
+      } else {
+        this.error_message = "Ошибка связи. Не удается загрузить группы пользователей";
+//        alert("Ошибка связи с сервером!");
+      }
+    } else {
+      if (resp.status === 403) {
+       await this.$router.push('/');
+      }
+      if (resp.status === 401) {
+       await this.$router.push('/login');
+      }
     }
   },
   methods: {
@@ -138,7 +153,16 @@ export default {
       this.isNewUser = true;
     },
     async fetchUser(user) {
-      const res = await fetch("http://localhost:8081/users/" + user.id);
+      let auth = JSON.parse(localStorage.getItem('user'));
+      let headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Authorization', 'Basic ' + auth);
+      let request = new Request("http://localhost:8081/users/" + user.id, {
+        method: 'GET',
+        headers: headers,
+        credentials: 'same-origin'
+      });
+      const res = await fetch(request);
       if (res.ok) {
         this.user = await res.json();
         this.isModalVisible = true;
@@ -150,17 +174,29 @@ export default {
         )
         this.isNewUser = false;
       } else {
-        alert("Ошибка связи с сервером!");
+        // this.isErrorVisible = true;
+        // this.error_message = "Ошибка связи. Не удается загрузить группы пользователей";
+
+//        alert("Ошибка связи с сервером!");
       }
     },
     async deleteUser(user) {
-      const res = await fetch('http://localhost:8081/users/' + user.id, {
+      let auth = JSON.parse(localStorage.getItem('user'));
+      let headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Authorization', 'Basic ' + auth);
+      let request = new Request("http://localhost:8081/users/" + user.id, {
         method: 'DELETE',
+        headers: headers,
+        credentials: 'same-origin'
       });
+      const res = await fetch(request);
       if (res.ok) {
         this.users.splice(this.users.indexOf(user), 1);
       } else {
-        alert("Не найден элемент: " + user.id);
+      //  this.isErrorVisible = true;
+      //  this.error_message = "Не найден элемент: " + user.id;
+        //alert("Не найден элемент: " + user.id);
       }
     }
   },
