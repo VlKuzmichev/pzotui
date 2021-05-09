@@ -64,7 +64,7 @@ export default {
       if (resp.status === 200) {
         localStorage.setItem('user', JSON.stringify(window.btoa(this.username + ':' + this.password)));
         await this.$router.push('/');
-      }else {
+      } else {
         if (resp.status === 401) {
           this.auth_error = true;
         }

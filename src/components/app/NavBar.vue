@@ -15,8 +15,8 @@
             </a>
           </router-link>
           <li>
-            <a href="#" @click.prevent="logout">
-              <i class="material-icons black-text">exit_to_app</i>
+            <a href="#" >
+              <i class="material-icons black-text" v-on:click="logout">exit_to_app</i>
             </a>
           </li>
         </ul>
@@ -27,9 +27,26 @@
 <script>
 export default {
   methods: {
-    logout() {
-      this.$router.push('/login?message=logout');
-    }
+    async logout() {
+      let auth = JSON.parse(localStorage.getItem('user'));
+      let headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Authorization', 'Basic ' + auth);
+      let request = new Request("http://localhost:8081/logout", {
+        method: 'GET',
+        headers: headers,
+        credentials: 'same-origin'
+      });
+      const res = await fetch(request);
+      if (res.ok) {
+        localStorage.removeItem('user');
+        await this.$router.push('/login');
+      }
+    },
+    // logout() {
+    //
+    //   this.$router.push('/login?message=logout');
+    // }
   }
 }
 </script>

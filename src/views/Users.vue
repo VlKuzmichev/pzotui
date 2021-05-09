@@ -4,6 +4,9 @@
     <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="addUser">Добавить
       <i class="material-icons right">add</i>
     </a>
+<!--    <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="logout">выход-->
+<!--      <i class="material-icons right">add</i>-->
+<!--    </a>-->
     <table class="striped centered">
       <thead>
       <tr>
@@ -96,6 +99,8 @@ export default {
   components: {EditModal},
   async created() {
     let auth = JSON.parse(localStorage.getItem('user'));
+    //auth.expiration = 10;
+    console.log(auth)
     let headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Authorization', 'Basic ' + auth);
@@ -152,6 +157,22 @@ export default {
       this.isModalVisible = true;
       this.isNewUser = true;
     },
+    // async logout() {
+    //   let auth = JSON.parse(localStorage.getItem('user'));
+    //   let headers = new Headers();
+    //   headers.append('Accept', 'application/json');
+    //   headers.append('Authorization', 'Basic ' + auth);
+    //   let request = new Request("http://localhost:8081/logout", {
+    //     method: 'GET',
+    //     headers: headers,
+    //     credentials: 'same-origin'
+    //   });
+    //   const res = await fetch(request);
+    //   if (res.ok) {
+    //     localStorage.removeItem('user');
+    //     console.log(res)
+    //   }
+    // },
     async fetchUser(user) {
       let auth = JSON.parse(localStorage.getItem('user'));
       let headers = new Headers();
