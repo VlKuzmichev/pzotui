@@ -9,8 +9,8 @@
             class="validate"
             v-model="username"
         >
-        <label for="username">Имя пользователя</label>
-        <!--        <small class="helper-text invalid">Имя пользователя</small>-->
+<!--        <label for="username">Имя пользователя</label>-->
+                <small class="helper-text">Имя пользователя</small>
       </div>
       <div class="input-field">
         <input
@@ -19,10 +19,10 @@
             class="validate"
             v-model="password"
         >
-        <label for="password">Пароль</label>
-        <div class="helper-text invalid " v-if="auth_error">Не верное имя пользователя или пароль</div>
-        <!--        <small class="helper-text invalid">Password</small>-->
+<!--        <label for="password">Пароль</label>-->
+                <small class="helper-text">Пароль</small>
       </div>
+      <div class="helper-text invalid" v-if="auth_error">Неверное имя пользователя или пароль</div>
     </div>
     <div class="card-action">
       <div>
@@ -46,7 +46,6 @@ export default {
     auth_error: '',
     username: '',
     password: '',
-    //users: []
   }),
   methods: {
     async submitHandler() {
@@ -58,7 +57,6 @@ export default {
       let request = new Request(uri, {
         method: 'GET',
         headers: headers,
-        credentials: 'same-origin'
       });
       const resp = await fetch(request).catch(error => alert(error.message));
       if (resp.status === 200) {

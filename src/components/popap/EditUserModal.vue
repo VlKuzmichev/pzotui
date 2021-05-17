@@ -54,7 +54,7 @@
 <script>
 
 export default {
-  name: "EditModal",
+  name: "EditUserModal",
   props: {
     user: {},
     isNewUser: Boolean,
@@ -94,12 +94,12 @@ export default {
             method: 'POST',
             body: JSON.stringify(this.editedUser),
             headers: headers,
-            credentials: 'same-origin'
+ //           credentials: 'same-origin'
           });
           const res = await fetch(request);
           this.editedUser = await res.json();
-          this.$emit("changeUser", this.editedUser);
           this.closeUserModal();
+          this.$emit("changeUser", this.editedUser);
         } catch (error) {
 //          console.error('Ошибка:', error);
         }
@@ -109,7 +109,7 @@ export default {
             method: 'PUT',
             body: JSON.stringify(this.editedUser),
             headers: headers,
-            credentials: 'same-origin'
+//           credentials: 'same-origin'
           });
           await fetch(request);
           this.$emit("changeUser", this.editedUser);
@@ -118,9 +118,6 @@ export default {
 //          console.error('Ошибка:', error);
         }
       }
-    },
-    logg() {
-      console.log(this.userRoles)
     }
   }
 }

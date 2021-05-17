@@ -35,7 +35,6 @@ export default {
       let request = new Request("http://localhost:8081/logout", {
         method: 'GET',
         headers: headers,
-        credentials: 'same-origin'
       });
       const res = await fetch(request);
       if (res.ok) {
@@ -43,10 +42,6 @@ export default {
         await this.$router.push('/login');
       }
     },
-    // logout() {
-    //
-    //   this.$router.push('/login?message=logout');
-    // }
   }
 }
 </script>

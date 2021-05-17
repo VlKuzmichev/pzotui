@@ -9,6 +9,7 @@
 <script>
 import EmptyLayout from "@/layouts/EmptyLayout";
 import MainLayout from "@/layouts/MainLayout";
+//import auth from "./modules/auth";
 
 export default {
   computed: {

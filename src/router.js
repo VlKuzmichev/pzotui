@@ -24,6 +24,12 @@ export default new Router({
             name: 'users',
             meta: {layout: 'main'},
             component: () => import('./views/Users.vue')
+        },
+        {
+            path: '/userGroups',
+            name: 'groups',
+            meta: {layout: 'main'},
+            component: () => import('./views/UserGroups.vue')
         }
     ]
 });

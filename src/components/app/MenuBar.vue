@@ -22,9 +22,9 @@ export default {
       {title: 'Главная', url: '/', exact: true},
       {title: 'Тестирование', url: '/myTests'},
       {title: 'Управление тестами', url: '/tests'},
-      {title: 'Группы студентов', url: '/groupStudents'},
+      {title: 'Группы студентов', url: '/studentGroups'},
       {title: 'Пользователи', url: '/users'},
-      {title: 'Группы пользователей', url: '/groupUsers'}
+      {title: 'Группы пользователей', url: '/userGroups'}
     ]
   })
 }

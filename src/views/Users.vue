@@ -4,9 +4,6 @@
     <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="addUser">Добавить
       <i class="material-icons right">add</i>
     </a>
-<!--    <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="logout">выход-->
-<!--      <i class="material-icons right">add</i>-->
-<!--    </a>-->
     <table class="striped centered">
       <thead>
       <tr>
@@ -56,15 +53,13 @@
       <li class="waves-effect"><a href="#!">5</a></li>
       <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
     </ul>
-    <EditModal :user="user" :isNewUser="isNewUser" :groups="groups" :roles="roles"
+    <EditUserModal :user="user" :isNewUser="isNewUser" :groups="groups" :roles="roles"
                v-if="isModalVisible" @closeModal="closeModal" @changeUser="changeUser"/>
-<!--    <ErrorModal :error_message="error_message" v-if="isErrorVisible"/>-->
   </div>
 </template>
 
 <script>
-import EditModal from "@/components/popap/EditModal";
-// import ErrorModal from "@/components/popap/ErrorModal";
+import EditUserModal from "@/components/popap/EditUserModal";
 
 export default {
   name: 'Users',
@@ -96,18 +91,16 @@ export default {
       isNewUser: false
     }
   },
-  components: {EditModal},
+  components: {EditUserModal},
   async created() {
     let auth = JSON.parse(localStorage.getItem('user'));
-    //auth.expiration = 10;
-    console.log(auth)
+    const URI = "http://localhost:8081/";
     let headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Authorization', 'Basic ' + auth);
-    let request = new Request("http://localhost:8081/users", {
+    let request = new Request(URI + "users", {
       method: 'GET',
       headers: headers,
-      credentials: 'same-origin'
     });
     const resp = await fetch(request);
     if (resp.ok) {
@@ -115,21 +108,19 @@ export default {
       let request_for_groups = new Request("http://localhost:8081/userGroups", {
         method: 'GET',
         headers: headers,
-        credentials: 'same-origin'
       });
       const group_req = await fetch(request_for_groups);
       if (group_req.ok) {
         this.groups = await group_req.json();
       } else {
         this.error_message = "Ошибка связи. Не удается загрузить группы пользователей";
-//        alert("Ошибка связи с сервером!");
       }
     } else {
       if (resp.status === 403) {
-       await this.$router.push('/');
+        await this.$router.push('/');
       }
       if (resp.status === 401) {
-       await this.$router.push('/login');
+        await this.$router.push('/login');
       }
     }
   },
@@ -157,22 +148,6 @@ export default {
       this.isModalVisible = true;
       this.isNewUser = true;
     },
-    // async logout() {
-    //   let auth = JSON.parse(localStorage.getItem('user'));
-    //   let headers = new Headers();
-    //   headers.append('Accept', 'application/json');
-    //   headers.append('Authorization', 'Basic ' + auth);
-    //   let request = new Request("http://localhost:8081/logout", {
-    //     method: 'GET',
-    //     headers: headers,
-    //     credentials: 'same-origin'
-    //   });
-    //   const res = await fetch(request);
-    //   if (res.ok) {
-    //     localStorage.removeItem('user');
-    //     console.log(res)
-    //   }
-    // },
     async fetchUser(user) {
       let auth = JSON.parse(localStorage.getItem('user'));
       let headers = new Headers();
@@ -181,7 +156,6 @@ export default {
       let request = new Request("http://localhost:8081/users/" + user.id, {
         method: 'GET',
         headers: headers,
-        credentials: 'same-origin'
       });
       const res = await fetch(request);
       if (res.ok) {
@@ -197,8 +171,6 @@ export default {
       } else {
         // this.isErrorVisible = true;
         // this.error_message = "Ошибка связи. Не удается загрузить группы пользователей";
-
-//        alert("Ошибка связи с сервером!");
       }
     },
     async deleteUser(user) {
@@ -209,15 +181,13 @@ export default {
       let request = new Request("http://localhost:8081/users/" + user.id, {
         method: 'DELETE',
         headers: headers,
-        credentials: 'same-origin'
       });
       const res = await fetch(request);
       if (res.ok) {
         this.users.splice(this.users.indexOf(user), 1);
       } else {
-      //  this.isErrorVisible = true;
-      //  this.error_message = "Не найден элемент: " + user.id;
-        //alert("Не найден элемент: " + user.id);
+        //  this.isErrorVisible = true;
+        //  this.error_message = "Не найден элемент: " + user.id;
       }
     }
   },
