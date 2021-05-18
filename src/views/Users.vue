@@ -4,7 +4,7 @@
     <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="addUser">Добавить
       <i class="material-icons right">add</i>
     </a>
-    <table class="striped centered">
+    <table class="striped">
       <thead>
       <tr>
         <th>Имя пользователя</th>
@@ -196,6 +196,11 @@ export default {
 
 <style>
 
+.row {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 td {
   font-size: 1.3em;
 }
@@ -207,9 +212,9 @@ tr td ul {
   padding-bottom: 0;
 }
 
-li > a {
-  font-size: 1.3em;
-}
+/*li > a {*/
+/*  font-size: 1.3em;*/
+/*}*/
 
 h5 {
   font-weight: bold;

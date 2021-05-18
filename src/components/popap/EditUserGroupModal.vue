@@ -114,12 +114,4 @@ export default {
   border-radius: 4px;
 }
 
-.user-groups {
-  display: block;
-}
-
-.user-groups:hover {
-  background-color: #f1f1f1;
-}
-
 </style>
