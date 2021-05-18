@@ -4,7 +4,7 @@
         <a href="#" class="btn btn-small black waves-effect waves-light left" v-on:click="addUserGroup">Добавить
           <i class="material-icons right">add</i>
         </a>
-    <table class="striped centered">
+    <table class="striped">
       <thead>
       <tr>
         <th>Наименование группы</th>
@@ -141,10 +141,15 @@ export default {
 }
 </script>
 
-<style>
-td {
-  font-size: 1.3em;
+<style scoped>
+
+.row {
+  padding-left: 20px;
+  padding-right: 20px;
 }
+/*td {*/
+/*  font-size: 1.3em;*/
+/*}*/
 
 tr td ul {
   margin-top: 0;
@@ -153,9 +158,9 @@ tr td ul {
   padding-bottom: 0;
 }
 
-li > a {
-  font-size: 1.3em;
-}
+/*li > a {*/
+/*  font-size: 1.3em;*/
+/*}*/
 
 h5 {
   font-weight: bold;
